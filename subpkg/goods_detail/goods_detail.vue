@@ -22,6 +22,7 @@
         </view>
       </view>
       <!-- 运费 -->
+      <!-- 在页面渲染时，可以直接使用映射过来的数据(vuex) -->
       <view class="yf">快递：免运费</view>
     </view>
     <!-- 商品详情信息 -->
@@ -40,6 +41,22 @@
 </template>
 
 <script>
+  // 从 vuex 中按需导出 mapState 辅助方法
+  import {
+    mapState
+  } from 'vuex'
+
+  // 按需导入 mapMutations 这个辅助方法 ，把 vuex 中 m_cart 模块下的 addToCart 方法映射到当前页面：
+  import {
+    mapMutations
+  } from 'vuex'
+
+  // 按需导入 mapGetters 这个辅助方法
+  import {
+    mapGetters
+  } from 'vuex'
+
+
   export default {
     data() {
       return {
@@ -68,6 +85,29 @@
         ]
       }
     },
+    computed: {
+      // 调用 mapState 方法，把 m_cart 模块中的 cart 数组映射到当前页面中，作为计算属性来使用
+      // ...mapState('模块的名称', ['要映射的数据名称1', '要映射的数据名称2'])
+      // 这里使用了展开运算符 展开了 mapState 方法,将返回值返回给 computed 计算属性
+      ...mapState('m_cart', ['total']),
+      // 无论映射 mutations 方法，还是 getters 属性，还是 state 中的数据，都需要指定模块的名称，才能进行映射
+    },
+    // 通过 watch 侦听器，监听计算属性 total 值的变化，从而动态为购物车按钮的徽标赋值
+    watch: {
+      // 使用普通函数的形式定义的 watch 侦听器，在页面首次加载后不会被调用。因此导致了商品详情页在首次加载完毕之后，不会将商品的总数量显示到商品导航区域,为了防止这个上述问题，可以使用对象的形式来定义 watch 侦听器
+      // 定义 total 侦听器，指向一个配置对象
+      total: {
+        // handler 属性用来定义侦听器的 function 处理函数
+        handler(newVal) {
+          const findResult = this.options.find(x => x.text === '购物车')
+          if (findResult) {
+            findResult.info = newVal
+          }
+        },
+        // immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+        immediate: true
+      }
+    },
     onLoad(options) {
       // 获取商品 Id
       const goods_id = options.goods_id
@@ -86,7 +126,7 @@
         if (res.meta.status !== 200) return uni.$showMsg()
         // 使用字符串的 replace() 方法，为 img 标签添加行内的 style 样式，从而解决图片底部空白间隙的问题
         // 同时解决 .webp 格式图片再 ios 上无法正常显示的问题
-        res.message.goods_introduce = res.message.goods_introduce.replace(/<img /g, '<img style="display:block;" ')
+        res.message.goods_introduce = res.message.goods_introduce.replace(/<img/g, '<img style="display:block;" ')
           .replace(/webp/g, 'jpg')
         // 为 data 中的数据赋值
         this.goods_info = res.message
@@ -111,6 +151,31 @@
           })
         }
       },
+
+      // 把 m_cart 模块中的 addToCart 方法映射到当前页面使用
+      ...mapMutations('m_cart', ['addToCart']),
+
+      // 右侧按钮的点击事件处理函数
+      buttonClick(e) {
+        // 1. 判断是否点击了 加入购物车 按钮
+        if (e.content.text === '加入购物车') {
+
+          // 2. 组织一个商品的信息对象
+          const goods = {
+            goods_id: this.goods_info.goods_id, // 商品的Id
+            goods_name: this.goods_info.goods_name, // 商品的名称
+            goods_price: this.goods_info.goods_price, // 商品的价格
+            goods_count: 1, // 商品的数量
+            goods_small_logo: this.goods_info.goods_small_logo, // 商品的图片
+            goods_state: true // 商品的勾选状态
+          }
+          // 3. 通过 this 调用映射过来的 addToCart 方法，把商品信息对象存储到购物车中
+          this.addToCart(goods)
+
+          // console.log('商品加入了购物车')
+
+        }
+      }
     },
   }
 </script>

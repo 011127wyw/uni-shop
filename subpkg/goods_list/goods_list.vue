@@ -67,29 +67,29 @@
       }
     },
     // 触底事件
-    // onReachBottom() {
-    //   // 判断是否还有下一页数据
-    //   if (this.queryObj.pagenum * this.queryObj.pagesize >= this.total) return uni.$showMsg('到底了哦，亲！')
+    onReachBottom() {
+      // 判断是否还有下一页数据
+      if (this.queryObj.pagenum * this.queryObj.pagesize >= this.total) return uni.$showMsg('到底了哦，亲！')
 
-    //   // 判断是否正在请求其它数据，如果是，则不发起额外的请求
-    //   if (this.isloading) return
+      // 判断是否正在请求其它数据，如果是，则不发起额外的请求
+      if (this.isloading) return
 
-    //   // 让页码自增 +1
-    //   this.queryObj.pagenum += 1
-    //   // 重新获取列表数据
-    //   this.getGoodsList()
-    // },
-    // onPullDownRefresh() {
-    //   // 1. 重置关键数据
-    //   this.queryObj.pagenum = 1
-    //   this.total = 0
-    //   this.isloading = false
-    //   this.goodsList = []
+      // 让页码自增 +1
+      this.queryObj.pagenum += 1
+      // 重新获取列表数据
+      this.getGoodsList()
+    },
+    onPullDownRefresh() {
+      // 1. 重置关键数据
+      this.queryObj.pagenum = 1
+      this.total = 0
+      this.isloading = false
+      this.goodsList = []
 
-    //   // 2. 重新发起请求
-    //   // 这里将关闭下拉刷新的回调函数(即cb())当成参数传入 getGoodsList 函数
-    //   this.getGoodsList(() => uni.stopPullDownRefresh())
-    // }
+      // 2. 重新发起请求
+      // 这里将关闭下拉刷新的回调函数(即cb())当成参数传入 getGoodsList 函数
+      this.getGoodsList(() => uni.stopPullDownRefresh())
+    }
   }
 </script>
 
