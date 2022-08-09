@@ -2,28 +2,28 @@
   "pages": [{
     "path": "pages/home/home",
     "style": {
-      "navigationBarTitleText": "",
+      "navigationBarTitleText": "商品主页",
       "enablePullDownRefresh": false
     }
 
   }, {
     "path": "pages/cate/cate",
     "style": {
-      "navigationBarTitleText": "",
+      "navigationBarTitleText": "商品分类页",
       "enablePullDownRefresh": false
     }
 
   }, {
     "path": "pages/cart/cart",
     "style": {
-      "navigationBarTitleText": "",
+      "navigationBarTitleText": "购物车",
       "enablePullDownRefresh": false
     }
 
   }, {
     "path": "pages/my/my",
     "style": {
-      "navigationBarTitleText": "",
+      "navigationBarTitleText": "个人信息",
       "enablePullDownRefresh": false
     }
 
@@ -33,14 +33,14 @@
     "pages": [{
       "path": "goods_detail/goods_detail",
       "style": {
-        "navigationBarTitleText": "",
+        "navigationBarTitleText": "商品详情",
         "enablePullDownRefresh": false
       }
 
     }, {
       "path": "goods_list/goods_list",
       "style": {
-        "navigationBarTitleText": "",
+        "navigationBarTitleText": "商品列表",
         "enablePullDownRefresh": true,
         "backgroundColor": "#F8F8F8",
         "onReachBottomDistance": 150
@@ -49,7 +49,7 @@
     }, {
       "path": "search/search",
       "style": {
-        "navigationBarTitleText": "",
+        "navigationBarTitleText": "搜索",
         "enablePullDownRefresh": false
       }
 
@@ -57,7 +57,7 @@
   }],
   "globalStyle": {
     "navigationBarTextStyle": "#3e494b",
-    "navigationBarTitleText": "开心购物",
+    "navigationBarTitleText": "",
     "navigationBarBackgroundColor": "#1bd4f8",
     "backgroundColor": "#FFFFFF",
     "app-plus": {
